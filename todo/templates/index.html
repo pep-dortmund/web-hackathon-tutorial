@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hackthon Tutorial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+  </head>
+
+  <body>
+    <header class="container">
+      <h1>To Do List</h1>
+    </header>
+
+    <main class="container">
+      <h2>My ToDos</h2>
+
+      <ul class="list-group">
+        {% for todo in todos %}
+        <li class="list-group-item">
+          {{ todo }}
+          <form action="/todos/{{ loop.index }}" method="DELETE">
+            <input class="btn btn-danger" type="submit" value="Delete ToDo" />
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      
+      <h2>Add A new todo</h2>
+      <form class="form-inline" action="/todos" method="POST">
+        <input class="form-control" required type="text" name="description" placeholder="Bier kaufen" />
+        <input class="btn btn-success" type="submit" value="Add ToDo" />
+      </form>
+    </main>
+  </body>
+</html>
