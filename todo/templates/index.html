@@ -22,6 +22,7 @@
     </header> 
 
     <main id="todo" class="container">
+    {% if current_user.is_authenticated %}
       <h2>ToDos</h2>
 
       <p v-if="allDone">All done, Awesome!</p>
@@ -55,6 +56,9 @@
         <input class="form-control" type="time" v-model="newToDo.due_time" id="due_time" name="due_time" id="due_time" placeholder="Time"/>
         <input class="btn btn-primary" type="submit" value="Add Todo" />
       </form>
+      {% else %}
+      Not logged in
+      {% endif %}
     </main>
   </body>
 </html>

@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 flask = "*"
 peewee = "*"
+flask-login = "*"
+werkzeug = "*"
 
 [dev-packages]
 
