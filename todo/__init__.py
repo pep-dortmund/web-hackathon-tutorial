@@ -29,13 +29,13 @@ def get_todo():
 
 @app.route('/todos', methods=['POST'])
 def add_todo():
-    todo = ToDo(
-        description=request.form['todo'],
-    )
+    todo = ToDo(description=request.form['todo'])
 
-    date_str = request.form['due_date'] + 'T' + request.form['due_time']
-    if date_str.strip():
+    if request.form['due_time']:
+        date_str = request.form['due_date'] + 'T' + request.form['due_time']
         todo.due_date = datetime.strptime(date_str, '%Y-%m-%dT%H:%M')
+    elif request.form['due_date']:
+        todo.due_date = datetime.strptime(request.form['due_date'], '%Y-%m-%d')
 
     todo.save()
     return jsonify(status="success")
