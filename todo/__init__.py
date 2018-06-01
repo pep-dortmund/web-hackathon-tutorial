@@ -29,7 +29,7 @@ def get_todo():
 
 @app.route('/todos', methods=['POST'])
 def add_todo():
-    todo = ToDo(description=request.form['todo'])
+    todo = ToDo(description=request.form['description'])
 
     if request.form['due_time']:
         date_str = request.form['due_date'] + 'T' + request.form['due_time']

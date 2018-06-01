@@ -12,6 +12,7 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
+    <script defer src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script defer src="{{ url_for('static', filename='site.js')}}"></script>
 
   </head>
@@ -20,41 +21,38 @@
       <h1>My To-Do-List</h1>
     </header> 
 
-    <main class="container">
+    <main id="todo" class="container">
       <h2>ToDos</h2>
 
+      <p v-if="allDone">All done, Awesome!</p>
+
       <ul class="list-group">
-        {% for todo in todos %}
-        <li class="list-group-item">
+        <li v-for="todo in todos" v-bind:key="todo.id" class="list-group-item">
           <div class="row">
             <div class="col">
-              {{ todo['description'] }}
+              (( todo.description ))
             </div>
             <div class="col">
-            {% if todo['done'] %}
-            <button onclick="toggleDone({{ todo['id'] }})" class="btn btn-sm btn-success">done!</button>
-            {% else %}
-            <button onclick="toggleDone({{ todo['id'] }})" class="btn btn-sm btn-danger">Not Done</button>
-            {% endif %}
+            <button v-if="todo.done" v-on:click="toggleDone(todo.id)" class="btn btn-sm btn-success">done!</button>
+            <button v-else v-on:click="toggleDone(todo.id)" class="btn btn-sm btn-danger">Not Done</button>
             </div>
+
             <div class="col">
-            {% if todo['due_date'] %} 
-              <span class="badge">{{ todo['due_date'] }}</span>
-            {% endif %}
+              <span class="badge">(( todo.due_date ))</span>
             </div>
             <div class="col-auto">
-              <button onclick="deleteToDo({{ todo['id'] }})" class="btn btn-sm btn-secondary">delete</button>
+              <button v-on:click="deleteToDo(todo.id)" class="btn btn-sm btn-secondary">delete</button>
             </div>
           </div>
         </li>
-        {% endfor %}
       </ul>
       
       <h2>Add new ToDo</h2>
-      <form id="addToDo" class="form-inline" onsubmit="return addToDo()">
-        <input class="form-control" required type="text" name="todo" id="todo" value="" placeholder="Buy beer"/>
-        <input class="form-control" type="date" name="due_date" id="due_date" placeholder="Due date"/>
-        <input class="form-control" type="time" name="due_time" id="due_time" placeholder="Time"/>
+
+      <form id="addToDo" class="form-inline" v-on:submit.prevent="addToDo">
+        <input class="form-control" required type="text" v-model="newToDo.description" value="" id="description" placeholder="Buy beer"/>
+        <input class="form-control" type="date" v-model="newToDo.due_date" id="due_date" placeholder="Due date"/>
+        <input class="form-control" type="time" v-model="newToDo.due_time" id="due_time" name="due_time" id="due_time" placeholder="Time"/>
         <input class="btn btn-primary" type="submit" value="Add Todo" />
       </form>
     </main>
