@@ -23,13 +23,26 @@
 
       <ul class="list-group">
         {% for todo in todos %}
-        <li class="list-group-item">{{ todo }}</li>
+        <li class="list-group-item">
+          {{ todo['id'] }}: 
+          {{ todo['description'] }}
+          {% if todo['done'] %}
+          <span class="badge badge-success">done!</span>
+          {% else %}
+          <span class="badge badge-danger">Not Done</span>
+          {% endif %}
+          {% if todo['due_date'] %} 
+          <span class="badge">{{ todo['due_date'] }}</span>
+          {% endif %}
+        </li>
         {% endfor %}
       </ul>
       
       <h2>Add new ToDo</h2>
       <form class="form-inline" action="/todos" method="POST">
         <input class="form-control" required type="text" name="todo" id="todo" value="" placeholder="Buy beer"/>
+        <input class="form-control" type="date" name="due_date" id="due_date" placeholder="Due date"/>
+        <input class="form-control" type="time" name="due_time" id="due_time" placeholder="Time"/>
         <input class="btn btn-primary" type="submit" value="Add Todo" />
       </form>
     </main>
