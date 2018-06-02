@@ -6,6 +6,9 @@ name = "pypi"
 [packages]
 flask = "*"
 peewee = "*"
+flask-socketio = "*"
+eventlet = "*"
+gunicorn = "*"
 
 [dev-packages]
 ipython = "*"

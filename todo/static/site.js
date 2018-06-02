@@ -6,6 +6,7 @@ function errorMessage(msg) {
   return $('#todo').before(div);
 }
 
+var socket = io();
 
 var app = new Vue({
   el: '#todo',
@@ -54,9 +55,13 @@ var app = new Vue({
           console.log("DELETED todo " + todo_id);
           this.getToDos();
         },
+        error: () => {
+          errorMessage(response.responseJSON.message)
+        }
       })
     }
   }
 })
 
 app.getToDos();
+socket.on('update', app.getToDos)
