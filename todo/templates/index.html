@@ -20,10 +20,25 @@
       <ul class="list-group">
         {% for todo in todos %}
         <li class="list-group-item">
-          {{ todo }}
-          <form action="/todos/{{ loop.index }}" method="DELETE">
-            <input class="btn btn-danger" type="submit" value="Delete ToDo" />
-          </form>
+          <div class="row">
+            <div class="col">
+            {{ todo.description }}
+            </div>
+
+            <div class="col">
+              <form action="/todos/{{ todo.id }}" method="POST">
+                <input class="btn btn-danger btn-sm" type="submit" value="Delete ToDo" />
+              </form>
+            </div>
+
+            <div class="col">
+              {% if todo.done %}
+              <button class="btn btn-success">Done!</button>
+              {% else %}
+              <button class="btn btn-danger">ToDo!</button>
+              {% endif %}
+            </div>
+          </div>
         </li>
         {% endfor %}
       </ul>
