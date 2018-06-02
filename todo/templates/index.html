@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Hackthon Tutorial</title>
+    <title>Hackathon Tutorial</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+
+    <script defer src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="{{ url_for('static', filename='site.js') }}"></script>
   </head>
 
   <body>
@@ -14,38 +19,31 @@
       <h1>To Do List</h1>
     </header>
 
-    <main class="container">
+    <main id="todo" class="container">
       <h2>My ToDos</h2>
 
       <ul class="list-group">
-        {% for todo in todos %}
-        <li class="list-group-item">
+        <li v-for="todo in todos" class="list-group-item">
           <div class="row">
             <div class="col">
-            {{ todo.description }}
+            (( todo.description ))
             </div>
 
             <div class="col">
-              <form action="/todos/{{ todo.id }}" method="POST">
-                <input class="btn btn-danger btn-sm" type="submit" value="Delete ToDo" />
-              </form>
+              <button v-on:click="deleteToDo(todo.id)" class="btn btn-danger btn-sm">Delete ToDo</button>
             </div>
 
             <div class="col">
-              {% if todo.done %}
-              <button class="btn btn-success">Done!</button>
-              {% else %}
-              <button class="btn btn-danger">ToDo!</button>
-              {% endif %}
+              <button v-if="todo.done" v-on:click="toggleDone(todo.id)" class="btn btn-success btn-sm">Done!</button>
+              <button v-else v-on:click="toggleDone(todo.id)" class="btn btn-danger btn-sm">ToDo!</button>
             </div>
           </div>
         </li>
-        {% endfor %}
       </ul>
       
       <h2>Add A new todo</h2>
-      <form class="form-inline" action="/todos" method="POST">
-        <input class="form-control" required type="text" name="description" placeholder="Bier kaufen" />
+      <form v-on:submit.prevent="addToDo" class="form-inline">
+        <input v-model="newToDo" class="form-control" required type="text" placeholder="Bier kaufen" />
         <input class="btn btn-success" type="submit" value="Add ToDo" />
       </form>
     </main>
