@@ -41,6 +41,7 @@ new_user.id
 ```
 
 *Table User*
+
 | ID | Username |
 |----|----------|
 | 1  | Kevin    |
@@ -53,6 +54,7 @@ Tweet(user=new_user, message="Databases are neat").save()
 ```
 
 *Table Tweets*
+
 | ID | Message            | User_ID |
 |----|--------------------|---------|
 | 1  | Hello              | 1       |
