@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hackathon Tutorial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <script defer src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="{{ url_for('static', filename='site.js') }}"></script>
+  </head>
+
+  <body>
+    <header class="container">
+      <h1>Hackathon Voting</h1>
+    </header>
+
+    <main id="todo" class="container">
+
+      <div v-if="!team && !voted">
+        <h2>Chose Team</h2>
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example">
+          <button
+            v-for="team_select in teams"
+            v-on:click="team = team_select"
+            type="button"
+            class="btn btn-secondary">
+            (( team_select.name ))
+          </button>
+        </div>
+      </div>
+
+      <div v-if="team && !voted">
+        <h2>Vote as Member of Team (( team.name ))</h2>
+
+        <h3>Best Idea</h3>
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example">
+          <button
+            v-for="team_select in teams"
+            v-if="team_select != team && team_select.voteable"
+            v-on:click="idea = team_select"
+            v-bind:class="{ active: team_select == idea}"
+            type="button"
+            class="btn btn-secondary">
+            (( team_select.name ))
+          </button>
+        </div>
+
+        <h3>Best Implementation</h3>
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example">
+          <button
+            v-for="team_select in teams"
+            v-if="team_select != team && team_select.voteable"
+            v-on:click="implementation = team_select"
+            v-bind:class="{ active: team_select == implementation}"
+            type="button"
+            class="btn btn-secondary">
+            (( team_select.name ))
+          </button>
+        </div>
+
+        <h3>Best Progress</h3>
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic example">
+          <button
+            v-for="team_select in teams"
+            v-if="team_select != team && team_select.voteable"
+            v-on:click="progress = team_select"
+            v-bind:class="{ active: team_select == progress}"
+            type="button"
+            class="btn btn-secondary">
+            (( team_select.name ))
+          </button>
+        </div>
+
+        <button
+          class="btn btn-primary"
+          v-on:click="sendVote">
+          Send
+        </button>
+      </div>
+
+      <h1 v-if="voted">Thanks for supporting democracy</h1>
+
+    </main>
+  </body>
+</html>
